@@ -1,0 +1,21 @@
+
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:id="@+id/mode" android:title="@string/mode">
+            <menu>
+                <group android:id="@+id/modeselect" android:checkableBehavior="single">
+                    <item android:id="@+id/basic" android:checked="true" android:title="@string/basic"/>
+                    <item android:id="@+id/rpn" android:checked="false" android:title="@string/rpn"/>
+                </group>
+            </menu>
+        </item>
+        <item android:id="@+id/base" android:title="@string/base">
+            <menu>
+                <group android:id="@+id/baseselect" android:checkableBehavior="single">
+                    <item android:id="@+id/dec" android:checked="true" android:title="@string/dec"/>
+                    <item android:id="@+id/bin" android:checked="false" android:title="@string/bin"/>
+                    <item android:id="@+id/oct" android:checked="false" android:title="@string/oct"/>
+                    <item android:id="@+id/hex" android:checked="false" android:title="@string/hex"/>
+                </group>
+            </menu>
+        </item>
+    </menu>
