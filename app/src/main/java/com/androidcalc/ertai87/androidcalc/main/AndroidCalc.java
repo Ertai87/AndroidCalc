@@ -22,32 +22,25 @@ public class AndroidCalc extends AppCompatActivity {
     int barsize = 0;
     boolean op2; //true = 2nd op mode, false = basic op mode (for landscape-only ops)
 
-    DecimalFragment decfrag;
+    private DecimalFragment decfrag;
 
-    Model model;
+    private Model model;
 
-    TextView display;
-    Button numButtons[] = new Button[16];
-    Button plus;
-    Button minus;
-    Button mult;
-    Button div;
-    Button eq;
-    Button point;
-    Button mempush;
-    Button mempop;
-    Button memclr;
-    Button reset;
-    Button second;
-    Button sin;
-    Button cos;
-    Button tan;
-    Button log;
-    Button square;
-    Button sqrt;
-    Button neg;
-    RadioButton basicmode;
-    RadioButton rpnmode;
+    private TextView display;
+    private Button mempush;
+    private Button mempop;
+    private Button memclr;
+    private Button reset;
+    private Button second;
+    private Button sin;
+    private Button cos;
+    private Button tan;
+    private Button log;
+    private Button square;
+    private Button sqrt;
+    private Button neg;
+    private RadioButton basicmode;
+    private RadioButton rpnmode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -211,80 +204,70 @@ public class AndroidCalc extends AppCompatActivity {
                 break;
         }
         if (base >= 10){
-            numButtons[0] = (Button)findViewById(R.id.Num0);
-            numButtons[0].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num0)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("0");
                     updateDisplay(model.getDisplayVal());
                 }
             });
-            numButtons[1] = (Button)findViewById(R.id.Num1);
-            numButtons[1].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num1)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("1");
                     updateDisplay(model.getDisplayVal());
                 }
             });
-            numButtons[2] = (Button)findViewById(R.id.Num2);
-            numButtons[2].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num2)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("2");
                     updateDisplay(model.getDisplayVal());
                 }
             });
-            numButtons[3] = (Button)findViewById(R.id.Num3);
-            numButtons[3].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num3)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("3");
                     updateDisplay(model.getDisplayVal());
                 }
             });
-            numButtons[4] = (Button)findViewById(R.id.Num4);
-            numButtons[4].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num4)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("4");
                     updateDisplay(model.getDisplayVal());
                 }
             });
-            numButtons[5] = (Button)findViewById(R.id.Num5);
-            numButtons[5].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num5)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("5");
                     updateDisplay(model.getDisplayVal());
                 }
             });
-            numButtons[6] = (Button)findViewById(R.id.Num6);
-            numButtons[6].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num6)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("6");
                     updateDisplay(model.getDisplayVal());
                 }
             });
-            numButtons[7] = (Button)findViewById(R.id.Num7);
-            numButtons[7].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num7)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("7");
                     updateDisplay(model.getDisplayVal());
                 }
             });
-            numButtons[8] = (Button)findViewById(R.id.Num8);
-            numButtons[8].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num8)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("8");
                     updateDisplay(model.getDisplayVal());
                 }
             });
-            numButtons[9] = (Button)findViewById(R.id.Num9);
-            numButtons[9].setOnClickListener(new OnClickListener() {
+            ((Button)findViewById(R.id.Num9)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.inputNum("9");
@@ -292,33 +275,32 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             });
         }
-        plus = (Button)findViewById(R.id.plus);
-        plus.setOnClickListener(new OnClickListener() {
+        ((Button)findViewById(R.id.plus)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDisplay(model.add());
+                model.add();
+                updateDisplay(model.getDisplayVal());
             }
         });
-        minus = (Button)findViewById(R.id.minus);
-        minus.setOnClickListener(new OnClickListener() {
+        ((Button)findViewById(R.id.minus)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDisplay(model.subtract());
-            }
+                model.subtract();
+                updateDisplay(model.getDisplayVal());            }
         });
-        mult = (Button)findViewById(R.id.mult);
-        mult.setOnClickListener(new OnClickListener() {
+        ((Button)findViewById(R.id.mult)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDisplay(model.multiply());
+                model.multiply();
+                updateDisplay(model.getDisplayVal());
             }
         });
-        div = (Button)findViewById(R.id.div);
-        div.setOnClickListener(new OnClickListener() {
+        ((Button)findViewById(R.id.div)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    updateDisplay(model.divide());
+                    model.divide();
+                    updateDisplay(model.getDisplayVal());
                 }catch (ArithmeticException e){
                     final AlertDialog alertDialog = new AlertDialog.Builder(AndroidCalc.this).create();
                     alertDialog.setTitle("Division by zero!");
@@ -333,19 +315,18 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             }
         });
-        point = (Button)findViewById(R.id.point);
-        point.setOnClickListener(new OnClickListener() {
+        ((Button)findViewById(R.id.point)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.inputPoint();
                 updateDisplay(model.getDisplayVal());
             }
         });
-        eq = (Button)findViewById(R.id.equals);
-        eq.setOnClickListener(new OnClickListener() {
+        ((Button)findViewById(R.id.equals)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateDisplay(model.eval());
+                model.eval();
+                updateDisplay(model.getDisplayVal());
             }
         });
         updateDisplay(model.getDisplayVal());

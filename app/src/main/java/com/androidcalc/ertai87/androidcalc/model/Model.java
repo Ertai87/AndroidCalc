@@ -8,13 +8,16 @@ import lombok.Data;
  * Created by ertai87 on 29/06/16.
  */
 public interface Model {
-    public String add();
-    public String subtract();
-    public String multiply();
-    public String divide();
-    public String eval();
-    public String inputNum(String num);
-    public String inputPoint();
+    public void add();
+    public void subtract();
+    public void multiply();
+    public void divide();
+    public void eval();
+    public void inputNum(String num);
+    public void inputPoint();
     public void resetCurrent();
+    public void memPush();
+    public void memPop();
+    public void memClear();
     public String getDisplayVal();
 }
