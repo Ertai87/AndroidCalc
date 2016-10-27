@@ -17,6 +17,10 @@ public class CalcConstants {
     public static int MAX_CHARS_XLARGE_PORTRAIT = 13;
     public static int MAX_CHARS_XLARGE_LAND = 21;
 
+    public static int MAX_DIGITS = Math.max(MAX_CHARS_PORTRAIT,
+            Math.max(MAX_CHARS_LANDSCAPE,
+                    Math.max(MAX_CHARS_LARGE_PORTRAIT, Math.max(MAX_CHARS_XLARGE_PORTRAIT, MAX_CHARS_XLARGE_LAND))));
+
     public static final Map<Pair<Integer, Integer>, Integer> sizeMap;
 
     static {

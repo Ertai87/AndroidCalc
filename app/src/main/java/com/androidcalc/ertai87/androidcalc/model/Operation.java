@@ -1,6 +1,9 @@
 package com.androidcalc.ertai87.androidcalc.model;
 
+import com.androidcalc.ertai87.androidcalc.common.CalcConstants;
+
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import lombok.Data;
 
