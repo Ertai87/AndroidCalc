@@ -11,13 +11,13 @@ import com.androidcalc.ertai87.androidcalc.R;
 
 public class BinaryFragment extends Fragment {
 
-	public void onAttach(Context context){
-		super.onAttach(context);
-	}
-	
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-	        // Inflate the layout for this fragment
-	        View root = inflater.inflate(R.layout.frag_bin, container, false);
-	        return root;
-	}
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View root = inflater.inflate(R.layout.frag_bin, container, false);
+        return root;
+    }
 }

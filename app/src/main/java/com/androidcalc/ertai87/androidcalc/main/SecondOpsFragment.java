@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.androidcalc.ertai87.androidcalc.R;
 
-public class DecimalFragment extends Fragment {
+public class SecondOpsFragment extends Fragment {
 
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -17,7 +17,7 @@ public class DecimalFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.frag_dec, container, false);
+        View root = inflater.inflate(R.layout.frag_ops_second, container, false);
         return root;
     }
 }

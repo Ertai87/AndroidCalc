@@ -2,9 +2,9 @@ package com.androidcalc.ertai87.androidcalc.model;
 
 import java.util.Stack;
 
-public class BasicModel extends Model{
+public class BasicModel extends Model {
 
-    public BasicModel(){
+    public BasicModel() {
         operation = new Operation();
         base = 10;
         newnum = true;
@@ -12,31 +12,9 @@ public class BasicModel extends Model{
     }
 
     @Override
-    public void add() {
+    public void doBinaryOp(char op) {
         eval();
-        operation.setOperation('+');
+        operation.setOperation(op);
         overrideZeroDisplay = true;
     }
-
-    @Override
-    public void subtract() {
-        eval();
-        operation.setOperation('-');
-        overrideZeroDisplay = true;
-    }
-
-    @Override
-    public void multiply() {
-        eval();
-        operation.setOperation('*');
-        overrideZeroDisplay = true;
-    }
-
-    @Override
-    public void divide(){
-        eval();
-        operation.setOperation('/');
-        overrideZeroDisplay = true;
-    }
-
 }

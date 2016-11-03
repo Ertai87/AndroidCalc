@@ -25,7 +25,7 @@ public class AndroidCalc extends AppCompatActivity {
 
     int barsize = 0;
     boolean rpn = false;
-    boolean op2; //true = 2nd op mode, false = basic op mode (for landscape-only ops)
+    boolean op2 = false; //true = 2nd op mode, false = basic op mode (for landscape-only ops)
     private final AndroidCalc context = this;
 
     private BinaryFragment binfrag;
@@ -33,64 +33,53 @@ public class AndroidCalc extends AppCompatActivity {
     private DecimalFragment decfrag;
     private HexadecimalFragment hexfrag;
 
+    private BasicOpsFragment basicfrag;
+    private SecondOpsFragment secfrag;
+
     private Model model;
 
     private TextView display;
     private Button mempush;
     private Button mempop;
     private Button memclr;
-    private Button second;
-    private Button sin;
-    private Button cos;
-    private Button tan;
-    private Button log;
-    private Button square;
-    private Button sqrt;
-    private Button neg;
+
     private RadioButton basicmode;
     private RadioButton rpnmode;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         barsize = CalcConstants.sizeMap.get(new Pair<Integer, Integer>(
-            this.getResources().getConfiguration().orientation,
-            this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK));
-        if (barsize == 0){
-            AlertDialog alertDialog = new AlertDialog.Builder(AndroidCalc.this).create();
-
-            // Setting Dialog Title
+                this.getResources().getConfiguration().orientation,
+                this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK));
+        if (barsize == 0) {
+            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
             alertDialog.setTitle("Error!");
-
-            // Setting Dialog Message
             alertDialog.setMessage("barsize not set for this configuration!");
 
-            // Setting OK Button
             alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 
-                public void onClick(DialogInterface dialog,int which)
-                {
+                public void onClick(DialogInterface dialog, int which) {
                     System.exit(1);
                 }
             });
 
-            // Showing Alert Message
             alertDialog.show();
         }
 
-        //Using a full alternation rather than search-default pairs for readability of code
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             model = new BasicModel();
-        }else{
-            //TODO: Fill this in
+        } else {
+            model = (Model) savedInstanceState.getSerializable("model");
+            op2 = savedInstanceState.getBoolean("op2");
         }
 
-        display = (TextView)findViewById(R.id.display);
+        display = (TextView) findViewById(R.id.display);
 
-        mempush = (Button)findViewById(R.id.mempush);
-        mempush.setOnClickListener(new OnClickListener(){
+        mempush = (Button) findViewById(R.id.mempush);
+        mempush.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.memPush();
@@ -99,21 +88,21 @@ public class AndroidCalc extends AppCompatActivity {
             }
         });
 
-        mempop = (Button)findViewById(R.id.mempop);
-        mempop.setOnClickListener(new OnClickListener(){
+        mempop = (Button) findViewById(R.id.mempop);
+        mempop.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (model.memPop()) {
                     Toast.makeText(context, "Memory Popped", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(context, "Memory Is Empty", Toast.LENGTH_SHORT).show();
                 }
                 updateDisplay(model.getDisplayVal());
             }
         });
 
-        memclr = (Button)findViewById(R.id.memclear);
-        memclr.setOnClickListener(new OnClickListener(){
+        memclr = (Button) findViewById(R.id.memclear);
+        memclr.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.memClear();
@@ -122,7 +111,7 @@ public class AndroidCalc extends AppCompatActivity {
             }
         });
 
-        ((Button)findViewById(R.id.reset)).setOnClickListener(new OnClickListener(){
+        ((Button) findViewById(R.id.reset)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.resetCurrent();
@@ -135,90 +124,30 @@ public class AndroidCalc extends AppCompatActivity {
         decfrag = new DecimalFragment();
         hexfrag = new HexadecimalFragment();
 
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            neg = (Button)findViewById(R.id.neg);
-            neg.setOnClickListener(new OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //TODO: Fill this in
-                }
-            });
-
-            square = (Button)findViewById(R.id.square);
-            square.setOnClickListener(new OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //TODO: Fill this in
-                }
-            });
-
-            sqrt = (Button)findViewById(R.id.sqrt);
-            sqrt.setOnClickListener(new OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //TODO: Fill this in
-                }
-            });
-
-            sin = (Button)findViewById(R.id.sin);
-            sin.setOnClickListener(new OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //TODO: Fill this in
-                }
-            });
-
-            cos = (Button)findViewById(R.id.cos);
-            cos.setOnClickListener(new OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //TODO: Fill this in
-                }
-            });
-
-            tan = (Button)findViewById(R.id.tan);
-            tan.setOnClickListener(new OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //TODO: Fill this in
-                }
-            });
-
-            log = (Button)findViewById(R.id.log);
-            log.setOnClickListener(new OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //TODO: Fill this in
-                }
-            });
-
-            second = (Button)findViewById(R.id.second);
-            second.setOnClickListener(new OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    //TODO: Fill this in
-                }
-            });
-
-            op2 = false;
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            basicfrag = new BasicOpsFragment();
+            secfrag = new SecondOpsFragment();
         }
         updateDisplay("0");
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
-        switchBase(10);
+        switchBase(model.getBase());
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            switchOpsMode(op2);
+        }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.calc_menu, menu);
-        if (rpn){
+        if (rpn) {
             menu.findItem(R.id.rpn).setChecked(true);
         }
-        switch (model.getBase()){
+        switch (model.getBase()) {
             case 2:
                 menu.findItem(R.id.bin).setChecked(true);
                 break;
@@ -234,8 +163,8 @@ public class AndroidCalc extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             /*
             TODO: RPN stuff
             case R.id.basic:
@@ -268,9 +197,130 @@ public class AndroidCalc extends AppCompatActivity {
         }
     }
 
-    public void switchBase(int newBase){
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("model", model);
+        outState.putBoolean("op2", op2);
+        super.onSaveInstanceState(outState);
+    }
+
+    public void switchOpsMode(boolean mode){
+        op2 = mode;
+        if (op2 == false) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.opsroot, basicfrag).commit();
+            getSupportFragmentManager().executePendingTransactions();
+        }else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.opsroot, secfrag).commit();
+            getSupportFragmentManager().executePendingTransactions();
+        }
+        ((Button) findViewById(R.id.neg)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.inputNeg();
+                updateDisplay(model.getDisplayVal());
+            }
+        });
+
+        ((Button) findViewById(R.id.square)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.doUnaryOp('^');
+                updateDisplay(model.getDisplayVal());
+            }
+        });
+
+        ((Button) findViewById(R.id.sqrt)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.doUnaryOp('/');
+                updateDisplay(model.getDisplayVal());
+            }
+        });
+
+        if (op2 == false){
+            ((Button) findViewById(R.id.sin)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.doUnaryOp('s');
+                    updateDisplay(model.getDisplayVal());
+                }
+            });
+
+            ((Button) findViewById(R.id.cos)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.doUnaryOp('c');
+                    updateDisplay(model.getDisplayVal());
+                }
+            });
+
+            ((Button) findViewById(R.id.tan)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.doUnaryOp('t');
+                    updateDisplay(model.getDisplayVal());
+                }
+            });
+
+            ((Button) findViewById(R.id.log)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.doUnaryOp('l');
+                    updateDisplay(model.getDisplayVal());
+                }
+            });
+
+            ((Button) findViewById(R.id.second)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switchOpsMode(true);
+                }
+            });
+        }else{
+            ((Button) findViewById(R.id.sininv)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.doUnaryOp('d');
+                    updateDisplay(model.getDisplayVal());
+                }
+            });
+
+            ((Button) findViewById(R.id.cosinv)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.doUnaryOp('v');
+                    updateDisplay(model.getDisplayVal());
+                }
+            });
+
+            ((Button) findViewById(R.id.taninv)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.doUnaryOp('y');
+                    updateDisplay(model.getDisplayVal());
+                }
+            });
+
+            ((Button) findViewById(R.id.ex)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    model.doUnaryOp(';');
+                    updateDisplay(model.getDisplayVal());
+                }
+            });
+
+            ((Button) findViewById(R.id.second)).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switchOpsMode(false);
+                }
+            });
+        }
+    }
+
+    public void switchBase(int newBase) {
         model.setBase(newBase);
-        switch (model.getBase()){
+        switch (model.getBase()) {
             case 2:
                 getSupportFragmentManager().beginTransaction().replace(R.id.root, binfrag).commit();
                 getSupportFragmentManager().executePendingTransactions();
@@ -288,14 +338,14 @@ public class AndroidCalc extends AppCompatActivity {
                 getSupportFragmentManager().executePendingTransactions();
                 break;
         }
-        if (model.getBase() >= 2){
-            ((Button)findViewById(R.id.Num0)).setOnClickListener(new OnClickListener() {
+        if (model.getBase() >= 2) {
+            ((Button) findViewById(R.id.Num0)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     inputNum('0');
                 }
             });
-            ((Button)findViewById(R.id.Num1)).setOnClickListener(new OnClickListener() {
+            ((Button) findViewById(R.id.Num1)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     inputNum('1');
@@ -351,7 +401,7 @@ public class AndroidCalc extends AppCompatActivity {
                             inputNum('9');
                         }
                     });
-                    if (model.getBase() >= 16){
+                    if (model.getBase() >= 16) {
                         ((Button) findViewById(R.id.NumA)).setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -392,74 +442,91 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             }
         }
-        ((Button)findViewById(R.id.plus)).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                model.add();
-                updateDisplay(model.getDisplayVal());
-            }
-        });
-        ((Button)findViewById(R.id.minus)).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                model.subtract();
-                updateDisplay(model.getDisplayVal());
-            }
-        });
-        ((Button)findViewById(R.id.mult)).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                model.multiply();
-                updateDisplay(model.getDisplayVal());
-            }
-        });
-        ((Button)findViewById(R.id.div)).setOnClickListener(new OnClickListener() {
+        ((Button) findViewById(R.id.plus)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    model.divide();
+                    model.doBinaryOp('+');
                     updateDisplay(model.getDisplayVal());
-                }catch (ArithmeticException e){
-                    final AlertDialog alertDialog = new AlertDialog.Builder(AndroidCalc.this).create();
-                    alertDialog.setTitle("Division by zero!");
-                    alertDialog.setMessage("Division by zero not yet supported by the laws of mathematics.  Please try again on a future update.");
-                    alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int which)
-                        {
-                            alertDialog.dismiss();
-                        }
-                    });
-                    alertDialog.show();
+                } catch (ArithmeticException e) {
+                    if("Division by zero".equals(e.getMessage())) {
+                        handleDivisionByZero();
+                    }else throw e;
                 }
             }
         });
-        ((Button)findViewById(R.id.point)).setOnClickListener(new OnClickListener() {
+        ((Button) findViewById(R.id.minus)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    model.doBinaryOp('-');
+                    updateDisplay(model.getDisplayVal());
+                } catch (ArithmeticException e) {
+                    if("Division by zero".equals(e.getMessage())) {
+                        handleDivisionByZero();
+                    }else throw e;
+                }
+            }
+        });
+        ((Button) findViewById(R.id.mult)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    model.doBinaryOp('*');
+                    updateDisplay(model.getDisplayVal());
+                } catch (ArithmeticException e) {
+                    if("Division by zero".equals(e.getMessage())) {
+                        handleDivisionByZero();
+                    }else throw e;
+                }
+            }
+        });
+        ((Button) findViewById(R.id.div)).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    model.doBinaryOp('/');
+                    updateDisplay(model.getDisplayVal());
+                } catch (ArithmeticException e) {
+                    if("Division by zero".equals(e.getMessage())) {
+                        handleDivisionByZero();
+                    }else throw e;
+                }
+            }
+        });
+        ((Button) findViewById(R.id.point)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.inputPoint();
                 updateDisplay(model.getDisplayVal());
             }
         });
-        ((Button)findViewById(R.id.equals)).setOnClickListener(new OnClickListener() {
+        ((Button) findViewById(R.id.equals)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                model.eval();
-                updateDisplay(model.getDisplayVal());
+                try {
+                    model.eval();
+                    updateDisplay(model.getDisplayVal());
+                } catch (ArithmeticException e) {
+                    if("Division by zero".equals(e.getMessage())) {
+                        handleDivisionByZero();
+                    }else throw e;
+                }
             }
         });
         updateDisplay(model.getDisplayVal());
     }
 
     //when num or memory is updated, updates the screen
-    public void updateDisplay(String todisplay){
-        if (todisplay.length() > barsize){
+    public void updateDisplay(String todisplay) {
+        if (todisplay.length() > barsize) {
             //if num doesn't fit into the display text box
             int i = 0;
-            for (;i < todisplay.length() && todisplay.charAt(i) != '.'; i++);
-            if (i <= barsize){
+            for (; i < todisplay.length() && todisplay.charAt(i) != '.'; i++) ;
+            if (i <= barsize) {
                 //if the fractional part causes the overflow, truncate the fractional part
                 todisplay = todisplay.substring(0, barsize);
-            }else{
+            } else {
                 //if the integer part causes the overflow, move into scientific notation
                 todisplay = todisplay.substring(0, i);
                 String head = todisplay.charAt(0) + ".";
@@ -468,16 +535,28 @@ public class AndroidCalc extends AppCompatActivity {
                 todisplay = (head + tail).substring(0, barsize - exponent.length()) + exponent;
             }
         }
-        mempush.setText("MEMPUSH (" + model.getMemSize() + ")");
-        mempop.setText("MEMPOP (" + model.getMemSize() + ")");
+        mempush.setText("MemPush (" + model.getMemSize() + ")");
+        mempop.setText("MemPop (" + model.getMemSize() + ")");
         display.setText(todisplay);
     }
 
-    private void inputNum(char num){
-        if(display.getText().length() < barsize) {
+    private void inputNum(char num) {
+        if (display.getText().length() < barsize || model.getNewNum()) {
             model.inputNum("" + num);
             updateDisplay(model.getDisplayVal());
         }
     }
 
+    private void handleDivisionByZero(){
+        final AlertDialog alertDialog = new AlertDialog.Builder(AndroidCalc.this).create();
+        alertDialog.setTitle("Division by zero!");
+        alertDialog.setMessage("Division by zero not yet supported by the laws of mathematics.  Please try again on a future update.");
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
+        model.resetOperation();
+    }
 }

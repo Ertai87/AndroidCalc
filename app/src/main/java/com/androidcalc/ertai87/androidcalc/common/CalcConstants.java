@@ -24,7 +24,7 @@ public class CalcConstants {
     public static final Map<Pair<Integer, Integer>, Integer> sizeMap;
 
     static {
-        Map<Pair<Integer, Integer>,Integer> aMap = new HashMap<>();
+        Map<Pair<Integer, Integer>, Integer> aMap = new HashMap<>();
         aMap.put(new Pair<>(Configuration.ORIENTATION_PORTRAIT, Configuration.SCREENLAYOUT_SIZE_NORMAL), MAX_CHARS_PORTRAIT);
         aMap.put(new Pair<>(Configuration.ORIENTATION_LANDSCAPE, Configuration.SCREENLAYOUT_SIZE_NORMAL), MAX_CHARS_LANDSCAPE);
         aMap.put(new Pair<>(Configuration.ORIENTATION_PORTRAIT, Configuration.SCREENLAYOUT_SIZE_LARGE), MAX_CHARS_LARGE_PORTRAIT);

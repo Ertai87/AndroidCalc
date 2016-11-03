@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="fill_horizontal|fill_vertical"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/display"
@@ -19,7 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical|fill_vertical" >
+        android:gravity="center_horizontal|center_vertical|fill_vertical">
 
         <Button
             android:id="@+id/mempush"
@@ -51,7 +51,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         android:gravity="center_horizontal|center_vertical|fill_vertical"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/reset"
@@ -63,7 +63,6 @@
     <FrameLayout
         android:id="@+id/root"
         android:layout_width="fill_parent"
-        android:layout_height="271dp" >
-    </FrameLayout>
+        android:layout_height="271dp"></FrameLayout>
 
 </LinearLayout>

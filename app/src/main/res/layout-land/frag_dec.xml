@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical|fill_vertical" >
+        android:gravity="center_horizontal|center_vertical|fill_vertical">
 
         <Button
             android:id="@+id/Num1"
@@ -44,7 +44,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical|fill_vertical" >
+        android:gravity="center_horizontal|center_vertical|fill_vertical">
 
         <Button
             android:id="@+id/Num4"
@@ -80,7 +80,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical|fill_vertical" >
+        android:gravity="center_horizontal|center_vertical|fill_vertical">
 
         <Button
             android:id="@+id/Num7"
@@ -116,7 +116,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical|fill_vertical" >
+        android:gravity="center_horizontal|center_vertical|fill_vertical">
 
         <Button
             android:id="@+id/point"

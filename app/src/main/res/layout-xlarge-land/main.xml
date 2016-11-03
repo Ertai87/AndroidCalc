@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/display"
@@ -11,32 +11,21 @@
         android:layout_marginBottom="0dp"
         android:gravity="right"
         android:text="@string/zero"
-        android:textSize="100sp"
+        android:textSize="30dp"
         android:typeface="monospace" />
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <LinearLayout android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-
+            android:orientation="vertical"
+            android:layout_weight="2.95">
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_weight="1" >
-
-                <Button
-                    android:id="@+id/memclear"
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/memclear"
-                    android:textSize="25sp" />
+                android:layout_weight="1">
 
                 <Button
                     android:id="@+id/mempush"
@@ -45,7 +34,7 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:text="@string/mempush"
-                    android:textSize="25sp" />
+                    android:textSize="10dp" />
 
                 <Button
                     android:id="@+id/mempop"
@@ -54,120 +43,43 @@
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:text="@string/mempop"
-                    android:textSize="25sp" />
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/memclear"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="@string/memclear"
+                    android:textSize="10dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <Button
                     android:id="@+id/reset"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/reset"
-                    android:textSize="50sp" />
+                    android:text="@string/reset" />
             </LinearLayout>
-
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/opsroot"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1" >
-
-                <Button
-                    android:id="@+id/second"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/second"
-                    android:textSize="50sp" />
-
-                <Button
-                    android:id="@+id/sin"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/sin"
-                    android:textSize="50sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1" >
-
-                <Button
-                    android:id="@+id/square"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/square"
-                    android:textSize="50sp" />
-
-                <Button
-                    android:id="@+id/cos"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/cos"
-                    android:textSize="50sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1" >
-
-                <Button
-                    android:id="@+id/sqrt"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/sqrt"
-                    android:textSize="50sp" />
-
-                <Button
-                    android:id="@+id/tan"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/tan"
-                    android:textSize="50sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="1" >
-
-                <Button
-                    android:id="@+id/neg"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/neg"
-                    android:textSize="50sp" />
-
-                <Button
-                    android:id="@+id/log"
-                    android:layout_width="0dp"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/log"
-                    android:textSize="50sp" />
-            </LinearLayout>
+                android:layout_height="403dp">
+            </FrameLayout>
         </LinearLayout>
+
 
         <FrameLayout
             android:id="@+id/root"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_weight="5.92" >
-
+            android:layout_weight="5">
         </FrameLayout>
 
     </LinearLayout>

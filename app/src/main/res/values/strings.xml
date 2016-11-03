@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AndroidCalc</string>
-    
-    
+
+
     <string name="mempush">MemPush (0)</string>
     <string name="mempop">MemPop (0)</string>
     <string name="memclear">MemClear</string>
     <string name="reset">Reset Current</string>
     <string name="rpnclear">Reset Stack (0)</string>
     <string name="rpnpush">Push (0)</string>
-    
+
     <string name="zero">0</string>
     <string name="one">1</string>
     <string name="two">2</string>
@@ -20,14 +20,14 @@
     <string name="seven">7</string>
     <string name="eight">8</string>
     <string name="nine">9</string>
-    
+
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="times">x</string>
     <string name="div">/</string>
     <string name="equals">=</string>
     <string name="point">\u00b7</string>
-    
+
     <string name="neg">+/-</string>
     <string name="sin">SIN</string>
     <string name="cos">COS</string>
@@ -40,13 +40,13 @@
     <string name="cosinv">COS-1</string>
     <string name="taninv">TAN-1</string>
     <string name="ex">e^X</string>
-    
+
     <string name="base">Switch Base</string>
     <string name="dec">Decimal</string>
     <string name="bin">Binary</string>
     <string name="oct">Octal</string>
     <string name="hex">Hexadecimal</string>
-    
+
     <string name="mode">Switch Mode</string>
     <string name="basic">Basic Mode</string>
     <string name="rpn">RPN Mode</string>
