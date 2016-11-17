@@ -265,8 +265,15 @@ public class AndroidCalc extends AppCompatActivity {
             ((Button) findViewById(R.id.log)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    model.doUnaryOp('l');
-                    updateDisplay(model.getDisplayVal());
+                    try{
+                        model.doUnaryOp('l');
+                        updateDisplay(model.getDisplayVal());
+                    }catch(NumberFormatException e){
+                        if (e.getMessage().contains("Infinity or NaN")){
+                            handleInvalidLog();
+                        }else throw e;
+                    }
+
                 }
             });
 
@@ -529,10 +536,12 @@ public class AndroidCalc extends AppCompatActivity {
             } else {
                 //if the integer part causes the overflow, move into scientific notation
                 todisplay = todisplay.substring(0, i);
-                String head = todisplay.charAt(0) + ".";
+                String head = "" + todisplay.charAt(0);
                 String tail = todisplay.substring(1, i);
+                while (tail.length() != 0 && tail.charAt(tail.length() - 1) == '0') tail = tail.substring(0, tail.length() - 1);
                 String exponent = "E" + (todisplay.length() - 1);
-                todisplay = (head + tail).substring(0, barsize - exponent.length()) + exponent;
+                todisplay = head + ("".equals(tail) ? "" : "." + tail);
+                todisplay = todisplay.substring(0, Math.min(barsize - exponent.length(), todisplay.length())) + exponent;
             }
         }
         mempush.setText("MemPush (" + model.getMemSize() + ")");
@@ -558,5 +567,17 @@ public class AndroidCalc extends AppCompatActivity {
         });
         alertDialog.show();
         model.resetOperation();
+    }
+
+    private void handleInvalidLog(){
+        final AlertDialog alertDialog = new AlertDialog.Builder(AndroidCalc.this).create();
+        alertDialog.setTitle("Invalid Log!");
+        alertDialog.setMessage("Unable to take a log of that number.");
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.show();
     }
 }

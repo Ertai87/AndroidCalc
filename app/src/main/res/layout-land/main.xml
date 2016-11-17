@@ -69,7 +69,7 @@
             <FrameLayout
                 android:id="@+id/opsroot"
                 android:layout_width="fill_parent"
-                android:layout_height="182dp">
+                android:layout_height="155dp">
             </FrameLayout>
         </LinearLayout>
 
