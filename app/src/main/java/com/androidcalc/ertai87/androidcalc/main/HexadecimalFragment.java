@@ -17,7 +17,6 @@ public class HexadecimalFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.frag_hex, container, false);
-        return root;
+        return inflater.inflate(R.layout.frag_hex, container, false);
     }
 }

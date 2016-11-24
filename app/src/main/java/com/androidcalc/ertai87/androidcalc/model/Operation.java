@@ -1,43 +1,42 @@
 package com.androidcalc.ertai87.androidcalc.model;
 
-import com.androidcalc.ertai87.androidcalc.common.CalcConstants;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
-import lombok.Data;
+import static com.androidcalc.ertai87.androidcalc.common.CalcUtils.convertBaseToDecimal;
+import static com.androidcalc.ertai87.androidcalc.common.CalcUtils.convertDecimalToBase;
 
-public class Operation implements Serializable {
+class Operation implements Serializable {
     private String operands[];
     private char operation;
+    int base;
 
-    public Operation() {
+    Operation() {
         operands = new String[2];
         operands[0] = "";
         operands[1] = "";
         operation = 0;
     }
 
-    public Operation(String op1, char op, String op2) {
-        operands = new String[]{op1, op2};
-        operation = op;
+    Operation(Operation oldOperation, int fromBase, int toBase){
+        operands = new String[2];
+        if (!"".equals(oldOperation.operands[0])){
+            operands[0] = convertDecimalToBase(convertBaseToDecimal(oldOperation.operands[0], fromBase), toBase);
+        }else{
+            operands[0] = "";
+        }
+        if (!"".equals(oldOperation.operands[1])){
+            operands[1] = convertDecimalToBase(convertBaseToDecimal(oldOperation.operands[1], fromBase), toBase);
+        }else{
+            operands[1] = "";
+        }
+        operation = oldOperation.operation;
     }
 
-    public Operation(String[] ops, char op) {
-        operands = ops;
-        operation = op;
-    }
-
-    public Operation(String op1) {
-        operands = new String[]{op1, ""};
-        operation = 0;
-    }
-
-    public Operation eval() {
-        if (operation == 0) return this;
-        BigDecimal op1 = new BigDecimal(operands[0] == "" ? "0" : operands[0]);
-        BigDecimal op2 = new BigDecimal(operands[1] == "" ? "0" : operands[1]);
+    void eval() {
+        if (operation == 0) return;
+        BigDecimal op1 = new BigDecimal("".equals(operands[0]) ? "0" : convertBaseToDecimal(operands[0], base));
+        BigDecimal op2 = new BigDecimal("".equals(operands[1]) ? "0" : convertBaseToDecimal(operands[1], base));
         BigDecimal result;
         switch (operation) {
             case '+':
@@ -55,12 +54,13 @@ public class Operation implements Serializable {
             default:
                 throw new ArithmeticException("Operation not found");
         }
-        return new Operation(result.stripTrailingZeros().toPlainString());
+        operands = new String[]{convertDecimalToBase(result.stripTrailingZeros().toPlainString(), base), ""};
+        operation = 0;
     }
 
-    public void evalUnary(char op){
+    void evalUnary(char op){
         if (operation != 0 && "".equals(operands[1])) operation = 0;
-        BigDecimal val = new BigDecimal(getCurrentOperand() == "" ? "0" : getCurrentOperand());
+        BigDecimal val = new BigDecimal("".equals(getCurrentOperand()) ? "0" : convertBaseToDecimal(getCurrentOperand(), base));
         switch(op){
             case '^':
                 val = val.pow(2);
@@ -95,18 +95,18 @@ public class Operation implements Serializable {
             default:
                 break;
         }
-        setCurrentOperand(val.stripTrailingZeros().toPlainString());
+        setCurrentOperand(convertDecimalToBase(val.stripTrailingZeros().toPlainString(), base));
     }
 
-    public void setFirstOperand(String val) {
+    private void setFirstOperand(String val) {
         operands[0] = val;
     }
 
-    public void setSecondOperand(String val) {
+    private void setSecondOperand(String val) {
         operands[1] = val;
     }
 
-    public void setCurrentOperand(String val) {
+    void setCurrentOperand(String val) {
         if (operation == 0) {
             setFirstOperand(val);
         } else {
@@ -114,15 +114,15 @@ public class Operation implements Serializable {
         }
     }
 
-    public String getFirstOperand() {
-        return (operands[0] == "" ? "0" : operands[0]);
+    String getFirstOperand() {
+        return ("".equals(operands[0]) ? "0" : operands[0]);
     }
 
-    public String getSecondOperand() {
-        return (operands[1] == "" ? "0" : operands[1]);
+    private String getSecondOperand() {
+        return ("".equals(operands[1]) ? "0" : operands[1]);
     }
 
-    public String getCurrentOperand() {
+    String getCurrentOperand() {
         if (operation == 0) {
             return getFirstOperand();
         } else {
@@ -130,7 +130,7 @@ public class Operation implements Serializable {
         }
     }
 
-    public void setOperation(char op) {
+    void setOperation(char op) {
         operation = op;
     }
 

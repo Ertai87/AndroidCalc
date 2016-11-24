@@ -5,10 +5,10 @@ import java.util.Stack;
 public class BasicModel extends Model {
 
     public BasicModel() {
-        operation = new Operation();
+        operation = new DecimalOperation();
         base = 10;
         newnum = true;
-        memory = new Stack<String>();
+        memory = new Stack<>();
     }
 
     @Override

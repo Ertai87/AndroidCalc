@@ -1,22 +1,17 @@
 package com.androidcalc.ertai87.androidcalc.model;
 
-import com.androidcalc.ertai87.androidcalc.common.CalcConstants;
-
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
-import lombok.Data;
+import static com.androidcalc.ertai87.androidcalc.common.CalcUtils.convertBaseToDecimal;
+import static com.androidcalc.ertai87.androidcalc.common.CalcUtils.convertDecimalToBase;
 
-/**
- * Created by ertai87 on 29/06/16.
- */
 public abstract class Model implements Serializable {
 
     Operation operation;
     int base;
-    int zeroesAfterDecimalPoint = 0;
     boolean newnum;
     Stack<String> memory;
     boolean overrideZeroDisplay = false; //flag to override display of 0 when input sequence is # - op - # - op
@@ -24,7 +19,7 @@ public abstract class Model implements Serializable {
     public abstract void doBinaryOp(char op);
 
     public void eval() {
-        operation = operation.eval();
+        operation.eval();
         newnum = true;
     }
 
@@ -33,15 +28,16 @@ public abstract class Model implements Serializable {
         if (newnum) {
             operation.setCurrentOperand("0.");
             newnum = false;
-            zeroesAfterDecimalPoint = 0;
-        } else {
+        } else if (!operation.getCurrentOperand().contains(".")){
             operation.setCurrentOperand(operation.getCurrentOperand() + ".");
         }
     }
 
     public void inputNeg(){
-        if (!newnum) {
+        if (!newnum && !operation.getCurrentOperand().contains("-")) {
             operation.setCurrentOperand("-" + operation.getCurrentOperand());
+        }else if (operation.getCurrentOperand().contains("-")){
+            operation.setCurrentOperand(operation.getCurrentOperand().substring(1));
         }
     }
 
@@ -53,9 +49,9 @@ public abstract class Model implements Serializable {
             } else {
                 newnum = false;
             }
-            operation.setCurrentOperand(addDigit("0", num));
+            operation.setCurrentOperand(num);
         } else {
-            operation.setCurrentOperand(addDigit(operation.getCurrentOperand(), num));
+            operation.setCurrentOperand(operation.getCurrentOperand() + num);
         }
     }
 
@@ -94,7 +90,7 @@ public abstract class Model implements Serializable {
     }
 
     public void memClear() {
-        memory = new Stack<String>();
+        memory = new Stack<>();
     }
 
     public int getMemSize() {
@@ -102,8 +98,30 @@ public abstract class Model implements Serializable {
     }
 
     public void setBase(int newBase) {
+        if (base == newBase) return;
+        switch(newBase){
+            case 2:
+                operation = new BinaryOperation(operation, base);
+                break;
+            case 8:
+                operation = new OctalOperation(operation, base);
+                break;
+            case 10:
+                operation = new DecimalOperation(operation, base);
+                break;
+            case 16:
+                operation = new HexadecimalOperation(operation, base);
+                break;
+        }
+        List<String> newMemory = new ArrayList<>();
+        while(!memory.empty()){
+            newMemory.add(convertDecimalToBase(convertBaseToDecimal(memory.pop(), base), newBase));
+        }
+        memory = new Stack<>();
+        for (int i = newMemory.size() - 1; i >= 0; i--){
+            memory.push(newMemory.get(i));
+        }
         base = newBase;
-        zeroesAfterDecimalPoint = 0;
     }
 
     public int getBase() {
@@ -116,92 +134,9 @@ public abstract class Model implements Serializable {
 
     public String getDisplayVal() {
         if (overrideZeroDisplay) {
-            return convertToBase(operation.getFirstOperand(), base);
+            return operation.getFirstOperand();
         } else {
-            return appendZeroes(convertToBase(operation.getCurrentOperand(), base));
+            return operation.getCurrentOperand();
         }
-    }
-
-    private String convertToBase(String num, int base) {
-        String ret = "";
-        int pointIndex = num.indexOf(".");
-        boolean neg = false;
-        BigDecimal n = ("".equals(num) ? BigDecimal.ZERO : new BigDecimal(num));
-        BigDecimal b = new BigDecimal(base);
-
-        if (n.compareTo(BigDecimal.ZERO) == -1) {
-            neg = true;
-            n = BigDecimal.ZERO.subtract(n);
-        }
-        ret = n.toBigInteger().toString(base).toUpperCase();
-        n = n.remainder(BigDecimal.ONE);
-
-        if (pointIndex != -1) {
-            ret += ".";
-            for (int i = 0; i <= CalcConstants.MAX_DIGITS && n.compareTo(BigDecimal.ZERO) != 0; i++) {
-                n = n.multiply(b);
-                if (n.intValue() < 10) {
-                    ret += n.intValue();
-                } else {
-                    ret += (char) ('A' + n.intValue() - 10);
-                }
-                n = n.remainder(BigDecimal.ONE);
-            }
-        }
-        if (neg) ret = "-" + ret;
-        return ret;
-    }
-
-    private String convertToDecimal(String num) {
-        if (base == 10) return num;
-        int pointIndex = (num.contains(".") ? num.indexOf(".") : num.length());
-        int power = 0;
-        boolean neg = false;
-
-        BigInteger intpart = new BigInteger(num.substring(0, pointIndex), base);
-
-        if (pointIndex == num.length()) return intpart.toString();
-        if (pointIndex == num.length() - 1) return intpart.toString() + ".";
-
-        if (intpart.compareTo(BigInteger.ZERO) == -1) {
-            neg = true;
-            intpart = BigInteger.ZERO.subtract(intpart);
-        }
-
-        BigDecimal val = new BigDecimal(intpart.toString());
-        power = 0;
-        for (int i = pointIndex + 1; i < num.length(); i++) {
-            power--;
-            BigDecimal digit;
-            try {
-                digit = new BigDecimal("" + num.charAt(i));
-            } catch (NumberFormatException e) {
-                digit = new BigDecimal("" + (int)(num.charAt(i) - 'A' + 10));
-            }
-            double baseConversion = Math.pow(base, power);
-            val = val.add(digit.multiply(new BigDecimal(baseConversion)));
-        }
-        return (neg ? "-" : "") + val;
-    }
-
-    private String addDigit(String appendTo, String appendWith) {
-        if ("0".equals(appendTo)) return convertToDecimal(appendWith);
-        if ("0".equals(appendWith) && appendTo.indexOf(".") != -1){
-            zeroesAfterDecimalPoint ++;
-            return appendTo;
-        }else{
-            String ret = convertToDecimal(appendZeroes(convertToBase(appendTo, base)) + appendWith);
-            zeroesAfterDecimalPoint = 0;
-            return ret;
-        }
-    }
-
-    private String appendZeroes(String num){
-        if (num.indexOf(".") != -1) {
-            for (int i = 0; i < zeroesAfterDecimalPoint; i++) {
-                num += '0';
-            }
-        }
-        return num;
     }
 }

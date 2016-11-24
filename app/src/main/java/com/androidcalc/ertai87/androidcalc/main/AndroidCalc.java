@@ -41,7 +41,6 @@ public class AndroidCalc extends AppCompatActivity {
     private TextView display;
     private Button mempush;
     private Button mempop;
-    private Button memclr;
 
     private RadioButton basicmode;
     private RadioButton rpnmode;
@@ -51,7 +50,7 @@ public class AndroidCalc extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        barsize = CalcConstants.sizeMap.get(new Pair<Integer, Integer>(
+        barsize = CalcConstants.sizeMap.get(new Pair<>(
                 this.getResources().getConfiguration().orientation,
                 this.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK));
         if (barsize == 0) {
@@ -101,8 +100,7 @@ public class AndroidCalc extends AppCompatActivity {
             }
         });
 
-        memclr = (Button) findViewById(R.id.memclear);
-        memclr.setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.memclear)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.memClear();
@@ -111,7 +109,7 @@ public class AndroidCalc extends AppCompatActivity {
             }
         });
 
-        ((Button) findViewById(R.id.reset)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.reset)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.resetCurrent();
@@ -206,14 +204,14 @@ public class AndroidCalc extends AppCompatActivity {
 
     public void switchOpsMode(boolean mode){
         op2 = mode;
-        if (op2 == false) {
+        if (!op2) {
             getSupportFragmentManager().beginTransaction().replace(R.id.opsroot, basicfrag).commit();
             getSupportFragmentManager().executePendingTransactions();
         }else {
             getSupportFragmentManager().beginTransaction().replace(R.id.opsroot, secfrag).commit();
             getSupportFragmentManager().executePendingTransactions();
         }
-        ((Button) findViewById(R.id.neg)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.neg)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.inputNeg();
@@ -221,7 +219,7 @@ public class AndroidCalc extends AppCompatActivity {
             }
         });
 
-        ((Button) findViewById(R.id.square)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.square)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.doUnaryOp('^');
@@ -229,7 +227,7 @@ public class AndroidCalc extends AppCompatActivity {
             }
         });
 
-        ((Button) findViewById(R.id.sqrt)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.sqrt)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.doUnaryOp('/');
@@ -237,8 +235,8 @@ public class AndroidCalc extends AppCompatActivity {
             }
         });
 
-        if (op2 == false){
-            ((Button) findViewById(R.id.sin)).setOnClickListener(new OnClickListener() {
+        if (!op2){
+            (findViewById(R.id.sin)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.doUnaryOp('s');
@@ -246,7 +244,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             });
 
-            ((Button) findViewById(R.id.cos)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.cos)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.doUnaryOp('c');
@@ -254,7 +252,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             });
 
-            ((Button) findViewById(R.id.tan)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.tan)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.doUnaryOp('t');
@@ -262,7 +260,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             });
 
-            ((Button) findViewById(R.id.log)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.log)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try{
@@ -277,14 +275,14 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             });
 
-            ((Button) findViewById(R.id.second)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.second)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     switchOpsMode(true);
                 }
             });
         }else{
-            ((Button) findViewById(R.id.sininv)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.sininv)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.doUnaryOp('d');
@@ -292,7 +290,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             });
 
-            ((Button) findViewById(R.id.cosinv)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.cosinv)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.doUnaryOp('v');
@@ -300,7 +298,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             });
 
-            ((Button) findViewById(R.id.taninv)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.taninv)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.doUnaryOp('y');
@@ -308,7 +306,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             });
 
-            ((Button) findViewById(R.id.ex)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.ex)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     model.doUnaryOp(';');
@@ -316,7 +314,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             });
 
-            ((Button) findViewById(R.id.second)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.second)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     switchOpsMode(false);
@@ -346,100 +344,100 @@ public class AndroidCalc extends AppCompatActivity {
                 break;
         }
         if (model.getBase() >= 2) {
-            ((Button) findViewById(R.id.Num0)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.Num0)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     inputNum('0');
                 }
             });
-            ((Button) findViewById(R.id.Num1)).setOnClickListener(new OnClickListener() {
+            (findViewById(R.id.Num1)).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     inputNum('1');
                 }
             });
             if (model.getBase() >= 8) {
-                ((Button) findViewById(R.id.Num2)).setOnClickListener(new OnClickListener() {
+                (findViewById(R.id.Num2)).setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         inputNum('2');
                     }
                 });
-                ((Button) findViewById(R.id.Num3)).setOnClickListener(new OnClickListener() {
+                (findViewById(R.id.Num3)).setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         inputNum('3');
                     }
                 });
-                ((Button) findViewById(R.id.Num4)).setOnClickListener(new OnClickListener() {
+                (findViewById(R.id.Num4)).setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         inputNum('4');
                     }
                 });
-                ((Button) findViewById(R.id.Num5)).setOnClickListener(new OnClickListener() {
+                (findViewById(R.id.Num5)).setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         inputNum('5');
                     }
                 });
-                ((Button) findViewById(R.id.Num6)).setOnClickListener(new OnClickListener() {
+                (findViewById(R.id.Num6)).setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         inputNum('6');
                     }
                 });
-                ((Button) findViewById(R.id.Num7)).setOnClickListener(new OnClickListener() {
+                (findViewById(R.id.Num7)).setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         inputNum('7');
                     }
                 });
                 if (model.getBase() >= 10) {
-                    ((Button) findViewById(R.id.Num8)).setOnClickListener(new OnClickListener() {
+                    (findViewById(R.id.Num8)).setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             inputNum('8');
                         }
                     });
-                    ((Button) findViewById(R.id.Num9)).setOnClickListener(new OnClickListener() {
+                    (findViewById(R.id.Num9)).setOnClickListener(new OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             inputNum('9');
                         }
                     });
                     if (model.getBase() >= 16) {
-                        ((Button) findViewById(R.id.NumA)).setOnClickListener(new OnClickListener() {
+                        (findViewById(R.id.NumA)).setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 inputNum('A');
                             }
                         });
-                        ((Button) findViewById(R.id.NumB)).setOnClickListener(new OnClickListener() {
+                        (findViewById(R.id.NumB)).setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 inputNum('B');
                             }
                         });
-                        ((Button) findViewById(R.id.NumC)).setOnClickListener(new OnClickListener() {
+                        (findViewById(R.id.NumC)).setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 inputNum('C');
                             }
                         });
-                        ((Button) findViewById(R.id.NumD)).setOnClickListener(new OnClickListener() {
+                        (findViewById(R.id.NumD)).setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 inputNum('D');
                             }
                         });
-                        ((Button) findViewById(R.id.NumE)).setOnClickListener(new OnClickListener() {
+                        (findViewById(R.id.NumE)).setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 inputNum('E');
                             }
                         });
-                        ((Button) findViewById(R.id.NumF)).setOnClickListener(new OnClickListener() {
+                        (findViewById(R.id.NumF)).setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 inputNum('F');
@@ -449,7 +447,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             }
         }
-        ((Button) findViewById(R.id.plus)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.plus)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -462,7 +460,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             }
         });
-        ((Button) findViewById(R.id.minus)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.minus)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -475,7 +473,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             }
         });
-        ((Button) findViewById(R.id.mult)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.mult)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -488,7 +486,7 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             }
         });
-        ((Button) findViewById(R.id.div)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.div)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -501,14 +499,14 @@ public class AndroidCalc extends AppCompatActivity {
                 }
             }
         });
-        ((Button) findViewById(R.id.point)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.point)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 model.inputPoint();
                 updateDisplay(model.getDisplayVal());
             }
         });
-        ((Button) findViewById(R.id.equals)).setOnClickListener(new OnClickListener() {
+        (findViewById(R.id.equals)).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
