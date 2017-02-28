@@ -16,6 +16,13 @@ public abstract class Model implements Serializable {
     Stack<String> memory;
     boolean overrideZeroDisplay = false; //flag to override display of 0 when input sequence is # - op - # - op
 
+    public Model() {
+        operation = new DecimalOperation();
+        base = 10;
+        newnum = true;
+        memory = new Stack<>();
+    }
+
     public abstract void doBinaryOp(char op);
 
     public void eval() {
@@ -65,12 +72,12 @@ public abstract class Model implements Serializable {
             operation.setCurrentOperand("0");
             newnum = true;
         } else {
-            operation = new Operation();
+            operation = Operation.getOperation(base);
         }
     }
 
     public void resetOperation(){
-        operation = new Operation();
+        operation = Operation.getOperation(base);
     }
 
     public void memPush() {
@@ -91,10 +98,6 @@ public abstract class Model implements Serializable {
 
     public void memClear() {
         memory = new Stack<>();
-    }
-
-    public int getMemSize() {
-        return memory.size();
     }
 
     public void setBase(int newBase) {
@@ -138,5 +141,13 @@ public abstract class Model implements Serializable {
         } else {
             return operation.getCurrentOperand();
         }
+    }
+
+    public int getMemSize() {
+        return memory.size();
+    }
+
+    public String getCurrentValue(){
+        return operation.getCurrentOperand();
     }
 }

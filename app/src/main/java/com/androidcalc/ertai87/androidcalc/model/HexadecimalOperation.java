@@ -8,4 +8,9 @@ class HexadecimalOperation extends Operation implements Serializable {
         super(oldOperation, fromBase, 16);
         base = 16;
     }
+
+    public HexadecimalOperation() {
+        super();
+        base = 16;
+    }
 }

@@ -5,10 +5,17 @@ import java.util.Stack;
 public class BasicModel extends Model {
 
     public BasicModel() {
-        operation = new DecimalOperation();
-        base = 10;
-        newnum = true;
-        memory = new Stack<>();
+        super();
+    }
+
+    public BasicModel(RPNModel old){
+        super();
+        base = old.base;
+        operation = Operation.getOperation(base);
+        if (old.getCurrentValue() != ""){
+            operation.setCurrentOperand(old.getCurrentValue());
+            newnum = old.newnum;
+        }
     }
 
     @Override

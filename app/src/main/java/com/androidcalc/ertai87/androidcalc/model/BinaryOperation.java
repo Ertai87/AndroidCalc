@@ -8,4 +8,9 @@ class BinaryOperation extends Operation implements Serializable {
         super(oldOperation, fromBase, 2);
         base = 2;
     }
+
+    BinaryOperation(){
+        super();
+        base = 2;
+    }
 }

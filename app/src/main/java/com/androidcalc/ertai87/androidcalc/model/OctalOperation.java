@@ -8,4 +8,9 @@ class OctalOperation extends Operation implements Serializable {
         super(oldOperation, fromBase, 8);
         base = 8;
     }
+
+    public OctalOperation() {
+        super();
+        base = 8;
+    }
 }

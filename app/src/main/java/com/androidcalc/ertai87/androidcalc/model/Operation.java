@@ -141,4 +141,18 @@ class Operation implements Serializable {
         if ("".equals(operands[1])) return operands[0] + " " + operation;
         return operands[0] + " " + operation + " " + operands[1];
     }
+
+    public static Operation getOperation(int b){
+        switch(b) {
+            case 2:
+                return new BinaryOperation();
+            case 8:
+                return new OctalOperation();
+            case 10:
+                return new DecimalOperation();
+            case 16:
+                return new HexadecimalOperation();
+        }
+        return null;
+    }
 }

@@ -20,6 +20,7 @@ import com.androidcalc.ertai87.androidcalc.R;
 import com.androidcalc.ertai87.androidcalc.common.CalcConstants;
 import com.androidcalc.ertai87.androidcalc.model.BasicModel;
 import com.androidcalc.ertai87.androidcalc.model.Model;
+import com.androidcalc.ertai87.androidcalc.model.RPNModel;
 
 public class AndroidCalc extends AppCompatActivity {
 
@@ -41,9 +42,6 @@ public class AndroidCalc extends AppCompatActivity {
     private TextView display;
     private Button mempush;
     private Button mempop;
-
-    private RadioButton basicmode;
-    private RadioButton rpnmode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +71,7 @@ public class AndroidCalc extends AppCompatActivity {
         } else {
             model = (Model) savedInstanceState.getSerializable("model");
             op2 = savedInstanceState.getBoolean("op2");
+            rpn = savedInstanceState.getBoolean("rpn");
         }
 
         display = (TextView) findViewById(R.id.display);
@@ -126,7 +125,6 @@ public class AndroidCalc extends AppCompatActivity {
             basicfrag = new BasicOpsFragment();
             secfrag = new SecondOpsFragment();
         }
-        updateDisplay("0");
     }
 
     @Override
@@ -136,6 +134,7 @@ public class AndroidCalc extends AppCompatActivity {
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             switchOpsMode(op2);
         }
+        updateDisplay("0");
     }
 
     @Override
@@ -163,8 +162,6 @@ public class AndroidCalc extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            /*
-            TODO: RPN stuff
             case R.id.basic:
                 switchRPNMode(false);
                 item.setChecked(true);
@@ -173,7 +170,6 @@ public class AndroidCalc extends AppCompatActivity {
                 switchRPNMode(true);
                 item.setChecked(true);
                 return true;
-                */
             case R.id.dec:
                 switchBase(10);
                 item.setChecked(true);
@@ -195,10 +191,21 @@ public class AndroidCalc extends AppCompatActivity {
         }
     }
 
+    private void switchRPNMode(boolean r) {
+        if (r == rpn) return; else rpn = r;
+        if (r == true) {
+            model = new RPNModel((BasicModel)model);
+        }else{
+            model = new BasicModel((RPNModel)model);
+        }
+        updateDisplay(model.getDisplayVal());
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable("model", model);
         outState.putBoolean("op2", op2);
+        outState.putBoolean("rpn", rpn);
         super.onSaveInstanceState(outState);
     }
 
@@ -544,6 +551,13 @@ public class AndroidCalc extends AppCompatActivity {
         }
         mempush.setText("MemPush (" + model.getMemSize() + ")");
         mempop.setText("MemPop (" + model.getMemSize() + ")");
+        if (rpn){
+            mempop.setVisibility(View.GONE);
+            findViewById(R.id.equals).setVisibility(View.GONE);
+        }else{
+            mempop.setVisibility(View.VISIBLE);
+            findViewById(R.id.equals).setVisibility(View.VISIBLE);
+        }
         display.setText(todisplay);
     }
 
