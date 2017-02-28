@@ -134,7 +134,7 @@ public class AndroidCalc extends AppCompatActivity {
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             switchOpsMode(op2);
         }
-        updateDisplay("0");
+        updateDisplay(model.getDisplayVal());
     }
 
     @Override
