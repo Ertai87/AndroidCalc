@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/display"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:gravity="right"
+        android:text="@string/zero"
+        android:textSize="30dp"
+        android:typeface="monospace" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="2.95">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/mempush"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="@string/mempush"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/mempop"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="@string/mempop"
+                    android:textSize="10dp" />
+
+                <Button
+                    android:id="@+id/memclear"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:text="@string/memclear"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/reset"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="@string/reset" />
+            </LinearLayout>
+            <FrameLayout
+                android:id="@+id/opsroot"
+                android:layout_width="fill_parent"
+                android:layout_height="403dp">
+            </FrameLayout>
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/root"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="5">
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
